@@ -4,7 +4,7 @@ GOOS ?= linux
 ARCH ?= $(shell uname -m)
 BUILDINFOSDET ?= 
 
-DOCKER_REPO   := cloudflare/
+DOCKER_REPO   := nathanejohnson/
 GOFLOW_NAME    := goflow
 GOFLOW_VERSION := $(shell git describe --tags $(git rev-list --tags --max-count=1))
 VERSION_PKG   := $(shell echo $(GOFLOW_VERSION) | sed 's/^v//g')
@@ -73,7 +73,7 @@ package-deb-goflow: prepare
         --url "$(URL)" \
         --architecture $(ARCH) \
         --license "$(LICENSE)" \
-       	--deb-no-default-config-files \
+        --deb-no-default-config-files \
         --package $(DIST_DIR) \
         $(OUTPUT_GOFLOW)=/usr/bin/goflow \
         package/goflow.service=/lib/systemd/system/goflow.service \
