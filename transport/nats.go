@@ -2,7 +2,6 @@ package transport
 
 import (
 	"flag"
-
 	flowmessage "github.com/cloudflare/goflow/v3/pb"
 	"github.com/cloudflare/goflow/v3/utils"
 	"github.com/golang/protobuf/proto"

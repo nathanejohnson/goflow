@@ -64,7 +64,8 @@ build-goflow-light: prepare
 
 .PHONY: docker-goflow
 docker-goflow:
-	docker build -t $(DOCKER_REPO)$(GOFLOW_NAME):$(GOFLOW_VERSION) --build-arg LDFLAGS=$(LDFLAGS) -f Dockerfile .
+	docker buildx build --platform=linux/amd64,linux/arm64 -t $(DOCKER_REPO)$(GOFLOW_NAME):$(GOFLOW_VERSION) -t $(DOCKER_REPO)$(GOFLOW_NAME):latest --build-arg LDFLAGS=$(LDFLAGS) -f Dockerfile --push  .
+
 
 .PHONY: package-deb-goflow
 package-deb-goflow: prepare

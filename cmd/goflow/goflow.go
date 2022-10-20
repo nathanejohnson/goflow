@@ -19,6 +19,8 @@ var (
 	buildinfos = ""
 	AppVersion = "GoFlow " + version + " " + buildinfos
 
+	ConvertIPV6 = flag.Bool("convertipv6", false, "Convert IPV4 addresses to IPV6 format")
+
 	SFlowEnable = flag.Bool("sflow", true, "Enable sFlow")
 	SFlowAddr   = flag.String("sflow.addr", "", "sFlow listening address")
 	SFlowPort   = flag.Int("sflow.port", 6343, "sFlow listening port")
@@ -84,16 +86,19 @@ func main() {
 	log.Info("Starting GoFlow")
 
 	sSFlow := &utils.StateSFlow{
-		Transport: defaultTransport,
-		Logger:    log.StandardLogger(),
+		Transport:   defaultTransport,
+		Logger:      log.StandardLogger(),
+		ConvertIPV6: *ConvertIPV6,
 	}
 	sNF := &utils.StateNetFlow{
-		Transport: defaultTransport,
-		Logger:    log.StandardLogger(),
+		Transport:   defaultTransport,
+		Logger:      log.StandardLogger(),
+		ConvertIPV6: *ConvertIPV6,
 	}
 	sNFL := &utils.StateNFLegacy{
-		Transport: defaultTransport,
-		Logger:    log.StandardLogger(),
+		Transport:   defaultTransport,
+		Logger:      log.StandardLogger(),
+		ConvertIPV6: *ConvertIPV6,
 	}
 
 	go httpServer(sNF)

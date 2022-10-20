@@ -18,6 +18,8 @@ var (
 	buildinfos = ""
 	AppVersion = "GoFlow NetFlow " + version + " " + buildinfos
 
+	ConvertIPV6 = flag.Bool("convertipv6", false, "Convert IPV4 addresses to IPV6 format")
+
 	Addr  = flag.String("addr", "", "NetFlow/IPFIX listening address")
 	Port  = flag.Int("port", 2055, "NetFlow/IPFIX listening port")
 	Reuse = flag.Bool("reuse", false, "Enable so_reuseport for NetFlow/IPFIX listening port")
@@ -71,8 +73,9 @@ func main() {
 	log.Info("Starting GoFlow")
 
 	s := &utils.StateNetFlow{
-		Transport: defaultTransport,
-		Logger:    log.StandardLogger(),
+		Transport:   defaultTransport,
+		Logger:      log.StandardLogger(),
+		ConvertIPV6: *ConvertIPV6,
 	}
 
 	go httpServer(s)

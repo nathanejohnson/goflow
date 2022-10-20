@@ -11,8 +11,9 @@ import (
 )
 
 type StateNFLegacy struct {
-	Transport Transport
-	Logger    Logger
+	Transport   Transport
+	Logger      Logger
+	ConvertIPV6 bool
 }
 
 func (s *StateNFLegacy) DecodeFlow(msg interface{}) error {
@@ -78,6 +79,9 @@ func (s *StateNFLegacy) DecodeFlow(msg interface{}) error {
 	}
 
 	if s.Transport != nil {
+		if s.ConvertIPV6 {
+			convertAddressesToIPV6(flowMessageSet)
+		}
 		s.Transport.Publish(flowMessageSet)
 	}
 

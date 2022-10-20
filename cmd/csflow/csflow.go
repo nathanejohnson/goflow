@@ -14,13 +14,13 @@ import (
 )
 
 var (
-	version    = ""
-	buildinfos = ""
-	AppVersion = "GoFlow sFlow " + version + " " + buildinfos
-
-	Addr  = flag.String("addr", "", "sFlow listening address")
-	Port  = flag.Int("port", 6343, "sFlow listening port")
-	Reuse = flag.Bool("reuse", false, "Enable so_reuseport for sFlow listening port")
+	version     = ""
+	buildinfos  = ""
+	AppVersion  = "GoFlow sFlow " + version + " " + buildinfos
+	ConvertIPV6 = flag.Bool("convertipv6", false, "Convert IPV4 addresses to IPV6 format")
+	Addr        = flag.String("addr", "", "sFlow listening address")
+	Port        = flag.Int("port", 6343, "sFlow listening port")
+	Reuse       = flag.Bool("reuse", false, "Enable so_reuseport for sFlow listening port")
 
 	Workers  = flag.Int("workers", 1, "Number of sFlow workers")
 	LogLevel = flag.String("loglevel", "info", "Log level")
@@ -70,8 +70,9 @@ func main() {
 	log.Info("Starting GoFlow")
 
 	s := &utils.StateSFlow{
-		Transport: defaultTransport,
-		Logger:    log.StandardLogger(),
+		Transport:   defaultTransport,
+		Logger:      log.StandardLogger(),
+		ConvertIPV6: *ConvertIPV6,
 	}
 
 	go httpServer()

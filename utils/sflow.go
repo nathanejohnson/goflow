@@ -12,8 +12,9 @@ import (
 )
 
 type StateSFlow struct {
-	Transport Transport
-	Logger    Logger
+	Transport   Transport
+	Logger      Logger
+	ConvertIPV6 bool
 
 	Config *producer.SFlowProducerConfig
 }
@@ -131,6 +132,9 @@ func (s *StateSFlow) DecodeFlow(msg interface{}) error {
 	}
 
 	if s.Transport != nil {
+		if s.ConvertIPV6 {
+			convertAddressesToIPV6(flowMessageSet)
+		}
 		s.Transport.Publish(flowMessageSet)
 	}
 

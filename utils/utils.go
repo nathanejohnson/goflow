@@ -342,3 +342,14 @@ func UDPRoutine(name string, decodeFunc decoder.DecoderFunc, workers int, addr s
 			Observe(float64(size))
 	}
 }
+
+func convertAddressesToIPV6(flowMessageSet []*flowmessage.FlowMessage) {
+	for _, m := range flowMessageSet {
+		m.SrcAddr = net.IP(m.SrcAddr).To16()
+		m.SrcAddrEncap = net.IP(m.SrcAddrEncap).To16()
+		m.DstAddr = net.IP(m.DstAddr).To16()
+		m.DstAddrEncap = net.IP(m.DstAddrEncap).To16()
+		m.NextHop = net.IP(m.NextHop).To16()
+		m.SamplerAddress = net.IP(m.SamplerAddress).To16()
+	}
+}

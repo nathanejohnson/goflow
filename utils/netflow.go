@@ -51,6 +51,7 @@ func (s *TemplateSystem) GetTemplate(version uint16, obsDomainId uint32, templat
 type StateNetFlow struct {
 	Transport     Transport
 	Logger        Logger
+	ConvertIPV6   bool
 	templateslock *sync.RWMutex
 	templates     map[string]*TemplateSystem
 
@@ -328,6 +329,9 @@ func (s *StateNetFlow) DecodeFlow(msg interface{}) error {
 		Observe(float64((timeTrackStop.Sub(timeTrackStart)).Nanoseconds()) / 1000)
 
 	if s.Transport != nil {
+		if s.ConvertIPV6 {
+			convertAddressesToIPV6(flowMessageSet)
+		}
 		s.Transport.Publish(flowMessageSet)
 	}
 
